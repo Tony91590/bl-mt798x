@@ -70,14 +70,8 @@ unsigned int mtk_get_cpu_freq()
 
 void mtk_pll_init(int skip_dcm_setting)
 {
-	uint32_t readreg;
-	mmio_clrbits_32(ARMPLL_CON1, ARMPLL_CON1_ALL0); // clear all armpll_con1
-	readreg = mmio_read_32(ARMPLL_CON1); //read con1
-	NOTICE("CON1 should 0 actual %X",readreg); //print con1
-	mmio_write_32(ARMPLL_CON1, 0x52000000);
-	mmio_clrbits_32(ARMPLL_CON0 , DIVIDE_RATIO_BIT4); 
-	
-	
+
+	/* Power on PLL */
 	mmio_setbits_32(ARMPLL_PWR_CON0, CON0_PWR_ON);
 	mmio_setbits_32(NET2PLL_PWR_CON0, CON0_PWR_ON);
 	mmio_setbits_32(MMPLL_PWR_CON0, CON0_PWR_ON);
@@ -86,7 +80,7 @@ void mtk_pll_init(int skip_dcm_setting)
 	mmio_setbits_32(NET1PLL1_PWR_CON0, CON0_PWR_ON);
 	mmio_setbits_32(APLL2_PWR_CON0, CON0_PWR_ON);
 	mmio_setbits_32(MPLL_PWR_CON0, CON0_PWR_ON);
-	
+
 	udelay(1);
 
 	/* Disable PLL ISO */
@@ -98,18 +92,13 @@ void mtk_pll_init(int skip_dcm_setting)
 	mmio_clrbits_32(NET1PLL1_PWR_CON0, CON0_ISO_EN);
 	mmio_clrbits_32(APLL2_PWR_CON0, CON0_ISO_EN);
 	mmio_clrbits_32(MPLL_PWR_CON0, CON0_ISO_EN);
-	
-
-       	mmio_clrbits_32(ARMPLL_CON0 , DIVIDE_RATIO_BIT4);  //can clear - depand on armpll_con1
 
 	/* Set PLL frequency */
+	mmio_write_32(ARMPLL_CON1, 0x82000000); /* 1.3G */
 
-	readreg = mmio_read_32(ARMPLL_CON1); //read con1
-	NOTICE("CON1 should 0 actual %X",readreg); //print con1
-	mmio_write_32(ARMPLL_CON1, 0x52000000); 
-	mmio_setbits_32(ARMPLL_CON0, 0x104); 
+	//mmio_setbits_32(ARMPLL_CON0, 0x124); /* divider for 650M */
 
-		
+	mmio_setbits_32(ARMPLL_CON0, 0x114); /* divider for 1.3G */
 
 	mmio_setbits_32(NET2PLL_CON0, 0x114);
 	mmio_setbits_32(MMPLL_CON0, 0x124);
@@ -137,7 +126,7 @@ void mtk_pll_init(int skip_dcm_setting)
 	mmio_setbits_32(WEDMCUPLL_CON0, 0x00800000);
 	mmio_setbits_32(NET1PLL1_CON0, 0x00800000);
 	mmio_setbits_32(MPLL_CON0, 0x00800000);
-	
+
 	/* Enable Infra bus divider */
 	if (skip_dcm_setting == 0) {
 		mmio_setbits_32(VDNR_DCM_TOP_INFRA_CTRL_0, 0x2);
@@ -165,4 +154,3 @@ void mtk_pll_init(int skip_dcm_setting)
 	mmio_write_32(0x1001B1C0, 0x7FFEFCE3);
 	mmio_write_32(0x1001B1C4, 0x3);
 }
-
