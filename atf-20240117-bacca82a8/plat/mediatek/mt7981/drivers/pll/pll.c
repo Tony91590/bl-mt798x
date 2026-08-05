@@ -166,3 +166,9 @@ void mtk_pll_init(int skip_dcm_setting)
 	mmio_write_32(0x1001B1C4, 0x3);
 }
 
+void mtk_pll_eth_init(void)
+{
+	mmio_clrsetbits_32(CLK_CFG_4, 0xffffff00, 0x01010100);
+	mmio_clrsetbits_32(CLK_CFG_5, 0x00ffffff, 0x00010101);
+	mmio_write_32(0x1001B1C0, 0x7e0000);
+}
