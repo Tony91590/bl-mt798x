@@ -177,6 +177,7 @@ enum {
 #define CLK_CFG_20  0x1001B144
 
 void mtk_pll_init(int);
+void mtk_pll_eth_init(void);
 unsigned int mtk_get_cpu_freq(void);
 
 #endif
