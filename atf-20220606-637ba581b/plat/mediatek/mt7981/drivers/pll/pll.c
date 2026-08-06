@@ -18,6 +18,9 @@
 #define ACLKEN_DIV  			0x10400640
 #define BUS_PLL_DIVIDER 		0x104007c0
 
+/* ARMPLL overclock frequency */
+static uint32_t freq_overclock = 0x4B000000;
+
 static unsigned int _mtk_get_cpu_freq(uint32_t valid)
 {
 	unsigned int temp, clk26cali_0, clk_cfg_9, clk_misc_cfg_1;
@@ -74,7 +77,7 @@ void mtk_pll_init(int skip_dcm_setting)
 	mmio_clrbits_32(ARMPLL_CON1, ARMPLL_CON1_ALL0); // clear all armpll_con1
 	readreg = mmio_read_32(ARMPLL_CON1); //read con1
 	NOTICE("CON1 should 0 actual %X",readreg); //print con1
-	mmio_write_32(ARMPLL_CON1, 0x4B000000);
+	mmio_write_32(ARMPLL_CON1, freq_overclock);
 	mmio_clrbits_32(ARMPLL_CON0 , DIVIDE_RATIO_BIT4); 
 	
 	
@@ -106,7 +109,7 @@ void mtk_pll_init(int skip_dcm_setting)
 
 	readreg = mmio_read_32(ARMPLL_CON1); //read con1
 	NOTICE("CON1 should 0 actual %X",readreg); //print con1
-	mmio_write_32(ARMPLL_CON1, 0x4B000000); 
+	mmio_write_32(ARMPLL_CON1, freq_overclock);
 	mmio_setbits_32(ARMPLL_CON0, 0x104); 
 
 		
