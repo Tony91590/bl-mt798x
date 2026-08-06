@@ -19,7 +19,7 @@
 #define BUS_PLL_DIVIDER 		0x104007c0
 
 /* ARMPLL overclock frequency */
-static uint32_t freq_overclock = 0x4B000000;
+static uint32_t freq_overclock = 0x52000000;
 
 static unsigned int _mtk_get_cpu_freq(uint32_t valid)
 {
