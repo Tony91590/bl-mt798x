@@ -74,7 +74,7 @@ void mtk_pll_init(int skip_dcm_setting)
 	mmio_clrbits_32(ARMPLL_CON1, ARMPLL_CON1_ALL0); // clear all armpll_con1
 	readreg = mmio_read_32(ARMPLL_CON1); //read con1
 	NOTICE("CON1 should 0 actual %X",readreg); //print con1
-	mmio_write_32(ARMPLL_CON1, 0x52000000);
+	mmio_write_32(ARMPLL_CON1, 0x4B000000);
 	mmio_clrbits_32(ARMPLL_CON0 , DIVIDE_RATIO_BIT4); 
 	
 	
@@ -106,7 +106,7 @@ void mtk_pll_init(int skip_dcm_setting)
 
 	readreg = mmio_read_32(ARMPLL_CON1); //read con1
 	NOTICE("CON1 should 0 actual %X",readreg); //print con1
-	mmio_write_32(ARMPLL_CON1, 0x52000000); 
+	mmio_write_32(ARMPLL_CON1, 0x4B000000); 
 	mmio_setbits_32(ARMPLL_CON0, 0x104); 
 
 		
