@@ -46,7 +46,6 @@ jobs:
 
       - name: Apply patch
         run: |
-         #git apply --verbose "modify-patch/0001-overclocking-mt7981-to-1.6GHz-by-modify-atf.patch"
           git apply --verbose "modify-patch/diff.patch"        
 
       - name: Build BL2 and FIP
